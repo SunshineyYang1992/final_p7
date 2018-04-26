@@ -27,16 +27,26 @@ plt.ylabel("grade")
 plt.show()
 ################################################################################
 
-
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+from time import time
 
+clf = AdaBoostClassifier(DecisionTreeClassifier(min_samples_split = 35),
+                         n_estimators=1000)
 
+t0 = time()
+clf.fit(features_train, labels_train)
+print "training time:", round(time()-t0, 3), "s"
 
+t0 = time()
+pred = clf.predict(features_test)
+print "predicting time:", round(time()-t0, 3), "s"
 
-
-
-
+acc = accuracy_score(pred, labels_test)
+print acc
 
 try:
     prettyPicture(clf, features_test, labels_test)
